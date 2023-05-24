@@ -57,13 +57,6 @@ require "paperclip/attachment_registry"
 require "paperclip/filename_cleaner"
 require "paperclip/rails_environment"
 
-begin
-  # Use mime/types/columnar if available, for reduced memory usage
-  require "mime/types/columnar"
-rescue LoadError
-  require "mime/types"
-end
-
 require "marcel"
 require "logger"
 require "terrapin"

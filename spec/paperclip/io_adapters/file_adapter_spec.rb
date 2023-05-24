@@ -60,7 +60,7 @@ describe Paperclip::FileAdapter do
 
       context "file with multiple possible content type" do
         before do
-          allow(MIME::Types).to receive(:type_for).and_return([MIME::Type.new("image/x-png"), MIME::Type.new("image/png")])
+          allow(Marcel::Mime).to receive(:for).and_return("image/png")
           @subject = Paperclip.io_adapters.for(@file, hash_digest: Digest::MD5)
         end
 
@@ -75,7 +75,6 @@ describe Paperclip::FileAdapter do
 
       context "file with content type derived from file contents on *nix" do
         before do
-          allow(MIME::Types).to receive(:type_for).and_return([])
           allow(Paperclip).to receive(:run).and_return("application/vnd.ms-office\n")
           allow_any_instance_of(Paperclip::ContentTypeDetector).
             to receive(:type_from_marcel).and_return("application/vnd.ms-office")

@@ -25,7 +25,7 @@ describe Paperclip::ContentTypeDetector do
   end
 
   it "returns content type of file if it is an acceptable type" do
-    allow(MIME::Types).to receive(:type_for).and_return([MIME::Type.new("application/mp4"), MIME::Type.new("video/mp4"), MIME::Type.new("audio/mp4")])
+    allow(Marcel::MimeType).to receive(:for).and_return("video/mp4")
     allow_any_instance_of(Paperclip::ContentTypeDetector).to receive(:type_from_file_contents).and_return("video/mp4")
     @filename = "my_file.mp4"
     assert_equal "video/mp4", Paperclip::ContentTypeDetector.new(@filename).detect

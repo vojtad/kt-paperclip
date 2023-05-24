@@ -128,12 +128,8 @@ module Paperclip
     # if the extension from the original filename is one of these extensions,
     # that extension is used, otherwise, the first in the list is used.
     def content_type_extension(attachment, style_name)
-      mime_type = MIME::Types[attachment.content_type]
-      extensions_for_mime_type = if mime_type.empty?
-                                   []
-                                 else
-                                   mime_type.first.extensions
-                                 end
+      magic = Marcel::Magic.new(attachment.content_type)
+      extensions_for_mime_type = magic.extensions
 
       original_extension = extension(attachment, style_name)
       style = attachment.styles[style_name.to_s.to_sym]

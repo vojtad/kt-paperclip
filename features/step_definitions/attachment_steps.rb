@@ -49,15 +49,10 @@ end
 
 Then /^the attachment should have the same content type as the fixture "([^"]*)"$/ do |filename|
   cd(".") do
-    begin
-      # Use mime/types/columnar if available, for reduced memory usage
-      require "mime/types/columnar"
-    rescue LoadError
-      require "mime/types"
-    end
+    require "marcel"
 
     attachment_content_type = `bundle exec rails runner "puts User.last.attachment_content_type"`.strip
-    expected = MIME::Types.type_for(filename).first.content_type
+    expected = Marcel::Magic.by_path(filename).type
     expect(attachment_content_type).to eq(expected)
   end
 end
